@@ -5,39 +5,36 @@
                   android:orientation="vertical">
 
         <!-- User data-->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:id="@+id/user_id" android:text="userId"
-                  android:layout_marginTop="5dp" android:layout_marginLeft="5dp"
-                  android:padding="3dp"/>
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:id="@+id/username" android:text="username"
-                  android:layout_marginTop="5dp" android:layout_marginLeft="5dp"
-                  android:padding="3dp"/>
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:id="@+id/user_email" android:text="user@email.com"
-                  android:layout_marginTop="5dp" android:layout_marginLeft="5dp"
-                  android:layout_marginBottom="5dp"
-                  android:padding="3dp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="match_parent"
+                  android:text="USER INFO" android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                  android:layout_marginTop="5dp" android:layout_gravity="center"/>
+        <ListView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:id="@+id/user_listview"/>
 
         <View android:layout_width="match_parent" android:layout_height="2dp"
               android:background="@color/colorPrimaryDark"/>
 
         <!-- Photo grid -->
+        <TextView android:layout_width="wrap_content" android:layout_height="match_parent"
+                  android:text="PHOTOS" android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                  android:layout_marginTop="5dp" android:layout_gravity="center"/>
         <GridView android:id="@+id/gridview"
-                android:layout_width="match_parent" android:layout_height="300dp"
-                android:gravity="center"
-                android:columnWidth="85dp" android:numColumns="auto_fit"
-                android:verticalSpacing="10dp" android:horizontalSpacing="10dp"
-                android:stretchMode="spacingWidthUniform" />
+                  android:layout_width="match_parent" android:layout_height="300dp"
+                  android:gravity="center"
+                  android:columnWidth="85dp" android:numColumns="auto_fit"
+                  android:verticalSpacing="10dp" android:horizontalSpacing="10dp"
+                  android:stretchMode="spacingWidthUniform"/>
 
         <View android:layout_width="match_parent" android:layout_height="2dp"
               android:background="@color/colorPrimaryDark"/>
 
         <!-- Comments -->
+        <TextView android:layout_width="wrap_content" android:layout_height="match_parent"
+                  android:text="COMMENTS" android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                  android:layout_marginTop="5dp" android:layout_gravity="center"/>
+
         <ListView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:id="@+id/comments_listview"/>
+                  android:id="@+id/comments_listview"/>
 
     </LinearLayout>
 </ScrollView>

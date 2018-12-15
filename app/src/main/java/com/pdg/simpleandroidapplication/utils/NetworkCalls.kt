@@ -10,13 +10,12 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.pdg.simpleandroidapplication.R.id.gridview
 import com.pdg.simpleandroidapplication.model.Comments
 import com.pdg.simpleandroidapplication.model.Photos
 import com.pdg.simpleandroidapplication.model.Post
 import com.pdg.simpleandroidapplication.model.Users
 import org.json.JSONException
-import java.util.*
+import kotlin.collections.ArrayList
 
 
 object NetworkCalls {
@@ -26,7 +25,7 @@ object NetworkCalls {
     internal var requestQueue: RequestQueue? = null
 
     internal var postsArray: ArrayList<Post>? = null
-    internal var user: Users? = null
+    internal var userArray: ArrayList<Users>? = null
     internal var photosArray: ArrayList<Photos>? = null
     internal var commentsArray: ArrayList<Comments>? = null
 
@@ -84,7 +83,7 @@ object NetworkCalls {
     }
 
 
-    fun fetchUserInfo(userid: Int) {
+    fun fetchUserInfo(userid: Int, user_listview: ListView) {
 //        Log.d(TAG, "https://jsonplaceholder.typicode.com/users/$userid")
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET,
@@ -92,17 +91,19 @@ object NetworkCalls {
             null,
             Response.Listener { response ->
                 try {
-                    user = Users(
+                    var user = Users(
                         response.getInt("id"),
                         response.getString("name"),
                         response.getString("username"),
                         response.getString("email")
                     )
+                    userArray?.add(user)
                 } catch (jsonError: JSONException) {
                     Log.e(TAG, "Error parsing JSON: " + jsonError.message)
                     jsonError.printStackTrace()
                 }
-                Log.d(TAG, "onResponse: object retrieved: $user")
+                Log.d(TAG, "onResponse: objects retrieved: ${userArray?.size}")
+                (user_listview.adapter as CustomUserInfoListAdapter).notifyDataSetChanged()
             },
             Response.ErrorListener { error ->
                 Log.e("TAG", "Error retrieving JSON from URL: " + error.message)
@@ -113,9 +114,10 @@ object NetworkCalls {
         Log.i(TAG, "Request sent.")
     }
 
-    fun getUserInfo(userid: Int): Users? {
-        fetchUserInfo(userid)
-        return user
+    fun getUserInfo(userid: Int, user_listview: ListView): ArrayList<Users> {
+        userArray = ArrayList()
+        fetchUserInfo(userid, user_listview)
+        return userArray as ArrayList<Users>
     }
 
     fun fetchPhotos(gridview: GridView) {

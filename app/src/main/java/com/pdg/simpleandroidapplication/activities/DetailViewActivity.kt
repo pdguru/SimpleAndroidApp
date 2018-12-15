@@ -6,8 +6,10 @@ import android.util.Log
 import com.pdg.simpleandroidapplication.R
 import com.pdg.simpleandroidapplication.utils.CommentsListAdapter
 import com.pdg.simpleandroidapplication.utils.CustomGridAdapter
+import com.pdg.simpleandroidapplication.utils.CustomUserInfoListAdapter
 import com.pdg.simpleandroidapplication.utils.NetworkCalls
 import kotlinx.android.synthetic.main.post_detail_view.*
+import kotlinx.android.synthetic.main.post_detail_view.view.*
 
 class DetailViewActivity : AppCompatActivity() {
 
@@ -24,13 +26,12 @@ class DetailViewActivity : AppCompatActivity() {
         var postid = intent.getIntExtra("POSTID", 0)
         Log.d(TAG, "userid: $userid and postid: $postid")
 
-        //user data
-        var user = NetworkCalls.getUserInfo(userid)
-        Log.d(TAG, user.toString())
+        //Since three separate network calls are to be made in parallel,
+        //create and place all the requests on the queue.
+        //View will be updated as data is loaded.
 
-        user_id.text = userid.toString()
-        username.text = user?.username
-        user_email.text = user?.email
+        //user data
+        user_listview.adapter = CustomUserInfoListAdapter(this, NetworkCalls.getUserInfo(userid,user_listview))
 
         //photo grid
         gridview.adapter = CustomGridAdapter(this, NetworkCalls.getPhotos(gridview))
@@ -40,8 +41,9 @@ class DetailViewActivity : AppCompatActivity() {
 
     }
 
-    override fun onStop() {
+    override fun onBackPressed() {
         NetworkCalls.deInitRequestQueue(this)
-        super.onStop()
+        gridview.adapter = null
+        super.onBackPressed()
     }
 }

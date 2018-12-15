@@ -22,7 +22,7 @@ class CustomGridAdapter(val context: Context, val urlArray: ArrayList<Photos>): 
         }
 
         var imageView = rowView.findViewById<ImageView>(R.id.grid_imageview)
-        Glide.with(context).load(urlArray[position].thumbnailUrl).placeholder(R.drawable.loading).into(imageView)
+        if(urlArray.size!=0) Glide.with(context).load(urlArray.get(position).thumbnailUrl).placeholder(R.drawable.loading).into(imageView)
 
         return rowView
     }
