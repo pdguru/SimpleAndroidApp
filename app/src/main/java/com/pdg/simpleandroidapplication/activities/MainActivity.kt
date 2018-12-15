@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
             val detailIntent = Intent(this, DetailViewActivity::class.java)
             detailIntent.putExtra("USERID", localArray[position].userId)
             detailIntent.putExtra("POSTID", localArray[position].id)
+            detailIntent.putExtra("TITLE", localArray[position].title)
             startActivity(detailIntent)
         }
     }

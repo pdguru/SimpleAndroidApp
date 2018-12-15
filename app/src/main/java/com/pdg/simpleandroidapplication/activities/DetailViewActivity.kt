@@ -9,7 +9,6 @@ import com.pdg.simpleandroidapplication.utils.CustomGridAdapter
 import com.pdg.simpleandroidapplication.utils.CustomUserInfoListAdapter
 import com.pdg.simpleandroidapplication.utils.NetworkCalls
 import kotlinx.android.synthetic.main.post_detail_view.*
-import kotlinx.android.synthetic.main.post_detail_view.view.*
 
 class DetailViewActivity : AppCompatActivity() {
 
@@ -25,6 +24,8 @@ class DetailViewActivity : AppCompatActivity() {
         var userid = intent.getIntExtra("USERID", 0)
         var postid = intent.getIntExtra("POSTID", 0)
         Log.d(TAG, "userid: $userid and postid: $postid")
+
+        title=intent.getStringExtra("TITLE")
 
         //Since three separate network calls are to be made in parallel,
         //create and place all the requests on the queue.

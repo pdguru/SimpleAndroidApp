@@ -64,7 +64,7 @@ object NetworkCalls {
                     jsonError.printStackTrace()
                 }
 
-                Log.d(TAG, "onResponse: array size:" + postsArray?.size)
+                Log.d(TAG, "onResponse: postsarray size:" + postsArray?.size)
                 (mainListView.adapter as CustomListAdapter).notifyDataSetChanged()
             },
             Response.ErrorListener { error ->
@@ -102,7 +102,7 @@ object NetworkCalls {
                     Log.e(TAG, "Error parsing JSON: " + jsonError.message)
                     jsonError.printStackTrace()
                 }
-                Log.d(TAG, "onResponse: objects retrieved: ${userArray?.size}")
+                Log.d(TAG, "onResponse: users retrieved: ${userArray?.size}")
                 (user_listview.adapter as CustomUserInfoListAdapter).notifyDataSetChanged()
             },
             Response.ErrorListener { error ->
@@ -123,7 +123,7 @@ object NetworkCalls {
     fun fetchPhotos(gridview: GridView) {
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET,
-            "https://jsonplaceholder.typicode.com/posts/1/photos?_limit=10",
+            "https://jsonplaceholder.typicode.com/posts/1/photos?_limit=12",
             null,
             Response.Listener { response ->
                 try {
@@ -142,7 +142,7 @@ object NetworkCalls {
                     Log.e(TAG, "Error parsing JSON: " + jsonError.message)
                     jsonError.printStackTrace()
                 }
-                Log.d(TAG, "onResponse: array size:" + photosArray?.size)
+                Log.d(TAG, "onResponse: photosarray size:" + photosArray?.size)
                 (gridview.adapter as CustomGridAdapter).notifyDataSetChanged()
             },
             Response.ErrorListener { error ->
@@ -163,7 +163,7 @@ object NetworkCalls {
     fun fetchComments(postid: Int, comments_listview: ListView) {
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET,
-            "https://jsonplaceholder.typicode.com/posts/$postid/comments?_limit=10",
+            "https://jsonplaceholder.typicode.com/posts/$postid/comments?_limit=25",
             null,
             Response.Listener { response ->
                 try {
@@ -183,7 +183,7 @@ object NetworkCalls {
                     jsonError.printStackTrace()
                 }
 
-                Log.d(TAG, "onResponse: array size:" + commentsArray?.size)
+                Log.d(TAG, "onResponse: commentsarray size:" + commentsArray?.size)
                 (comments_listview.adapter as CommentsListAdapter).notifyDataSetChanged()
             },
             Response.ErrorListener { error ->
