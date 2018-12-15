@@ -1,45 +1,41 @@
 package com.pdg.simpleandroidapplication.utils
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.TextView
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.pdg.simpleandroidapplication.R
-import com.pdg.simpleandroidapplication.model.Post
+import com.pdg.simpleandroidapplication.model.Photos
 
-class CustomListAdapter(val context: Context, val arrayValues: ArrayList<Post>) : BaseAdapter() {
+class CustomGridAdapter(val context: Context, val urlArray: ArrayList<Photos>): BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-
         val rowView: View
         if(convertView==null) {
             val inflater = LayoutInflater.from(context)
-            rowView = inflater.inflate(R.layout.list_row_cell, parent, false)
+            rowView = inflater.inflate(R.layout.photo_for_grid, parent, false)
         }else {
             rowView = convertView
         }
 
-        val titleTV = rowView.findViewById<TextView>(R.id.row_title)
-        titleTV.text = arrayValues[position].title
-
-        val bodyTV = rowView.findViewById<TextView>(R.id.row_body)
-        bodyTV.text = arrayValues[position].body
+        var imageView = rowView.findViewById<ImageView>(R.id.grid_imageview)
+        Glide.with(context).load(urlArray[position].thumbnailUrl).placeholder(R.drawable.loading).into(imageView)
 
         return rowView
     }
 
     override fun getItem(position: Int): Any {
-        return arrayValues.get(position)
+       return urlArray[position]
     }
 
     override fun getItemId(position: Int): Long {
-        return arrayValues.get(position).id?.toLong()!!
+        return position.toLong()
     }
 
     override fun getCount(): Int {
-        return arrayValues.size
+        return 9
     }
 }

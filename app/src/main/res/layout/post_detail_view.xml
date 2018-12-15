@@ -3,6 +3,7 @@
             android:layout_width="match_parent" android:layout_height="match_parent">
     <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                   android:orientation="vertical">
+
         <!-- User data-->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:id="@+id/user_id" android:text="userId"
@@ -25,31 +26,18 @@
 
         <!-- Photo grid -->
         <GridView android:id="@+id/gridview"
-                android:layout_width="match_parent" android:layout_height="match_parent"
+                android:layout_width="match_parent" android:layout_height="300dp"
                 android:gravity="center"
                 android:columnWidth="100dp" android:numColumns="auto_fit"
-                android:verticalSpacing="24dp" android:horizontalSpacing="10dp"
+                android:verticalSpacing="10dp" android:horizontalSpacing="10dp"
                 android:stretchMode="spacingWidthUniform" />
 
         <View android:layout_width="match_parent" android:layout_height="2dp"
               android:background="@color/colorPrimaryDark"/>
 
         <!-- Comments -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:id="@+id/comment_name" android:text="Comment title"
-                  android:layout_marginTop="5dp" android:layout_marginLeft="5dp"
-                  android:padding="3dp"/>
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:id="@+id/comment_body" android:text="Body"
-                  android:layout_marginTop="5dp" android:layout_marginLeft="5dp"
-                  android:padding="3dp" android:singleLine="false"/>
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:id="@+id/comment_by" android:text="user@email.com"
-                  android:layout_marginTop="5dp" android:layout_marginLeft="5dp"
-                  android:layout_marginBottom="5dp"
-                  android:padding="3dp"/>
+        <ListView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:id="@+id/comments_listview"/>
 
     </LinearLayout>
 </ScrollView>
