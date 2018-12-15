@@ -1,9 +1,10 @@
-package com.pdg.simpleandroidapplication
+package com.pdg.simpleandroidapplication.activities
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import com.pdg.simpleandroidapplication.R
 import com.pdg.simpleandroidapplication.utils.CustomListAdapter
 import com.pdg.simpleandroidapplication.utils.NetworkCalls
 import kotlinx.android.synthetic.main.activity_main.*
@@ -17,9 +18,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        NetworkCalls.setupRequestQueue(this.applicationContext)
+        NetworkCalls.setupRequestQueue(this)
 
-        var localArray = NetworkCalls.getPostsArray()
+        var localArray = NetworkCalls.getPostsArray(mainListView)
 
         val cAdapter = CustomListAdapter(this, localArray)
         mainListView.adapter = cAdapter
@@ -33,5 +34,10 @@ class MainActivity : AppCompatActivity() {
             detailIntent.putExtra("POSTID", localArray[position].id)
             startActivity(detailIntent)
         }
+    }
+
+    override fun onStop() {
+        NetworkCalls.deInitRequestQueue(this)
+        super.onStop()
     }
 }

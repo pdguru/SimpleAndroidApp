@@ -1,8 +1,9 @@
-package com.pdg.simpleandroidapplication
+package com.pdg.simpleandroidapplication.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import com.pdg.simpleandroidapplication.R
 import com.pdg.simpleandroidapplication.utils.CommentsListAdapter
 import com.pdg.simpleandroidapplication.utils.CustomGridAdapter
 import com.pdg.simpleandroidapplication.utils.NetworkCalls
@@ -16,7 +17,7 @@ class DetailViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_detail_view)
 
-        NetworkCalls.setupRequestQueue(this.applicationContext)
+        NetworkCalls.setupRequestQueue(this)
 
 
         var userid = intent.getIntExtra("USERID", 0)
@@ -32,10 +33,15 @@ class DetailViewActivity : AppCompatActivity() {
         user_email.text = user?.email
 
         //photo grid
-        gridview.adapter = CustomGridAdapter(this, NetworkCalls.getPhotos())
+        gridview.adapter = CustomGridAdapter(this, NetworkCalls.getPhotos(gridview))
 
         //comments
-        comments_listview.adapter = CommentsListAdapter(this, NetworkCalls.getComments(postid))
+        comments_listview.adapter = CommentsListAdapter(this, NetworkCalls.getComments(postid, comments_listview))
 
+    }
+
+    override fun onStop() {
+        NetworkCalls.deInitRequestQueue(this)
+        super.onStop()
     }
 }

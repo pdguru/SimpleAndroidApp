@@ -2,12 +2,15 @@ package com.pdg.simpleandroidapplication.utils
 
 import android.content.Context
 import android.util.Log
+import android.widget.GridView
+import android.widget.ListView
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.pdg.simpleandroidapplication.R.id.gridview
 import com.pdg.simpleandroidapplication.model.Comments
 import com.pdg.simpleandroidapplication.model.Photos
 import com.pdg.simpleandroidapplication.model.Post
@@ -34,7 +37,13 @@ object NetworkCalls {
         }
     }
 
-    private fun fetchPosts() {
+    fun deInitRequestQueue(context: Context){
+        if(requestQueue!=null){
+            requestQueue?.cancelAll(context)
+        }
+    }
+
+    public fun fetchPosts(mainListView: ListView) {
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET,
             "https://jsonplaceholder.typicode.com/posts?_limit=25",
@@ -56,7 +65,8 @@ object NetworkCalls {
                     jsonError.printStackTrace()
                 }
 
-//                Log.d(TAG, "onResponse: array size:" + postsArray!!.size)
+                Log.d(TAG, "onResponse: array size:" + postsArray?.size)
+                (mainListView.adapter as CustomListAdapter).notifyDataSetChanged()
             },
             Response.ErrorListener { error ->
                 Log.e("TAG", "Error retrieving JSON from URL: " + error.message)
@@ -67,14 +77,14 @@ object NetworkCalls {
         Log.i(TAG, "Request sent.")
     }
 
-    fun getPostsArray(): ArrayList<Post> {
+    fun getPostsArray(mainListView: ListView): ArrayList<Post> {
         postsArray = ArrayList()
-        fetchPosts()
+        fetchPosts(mainListView)
         return postsArray as ArrayList<Post>
     }
 
 
-    private fun fetchUserInfo(userid: Int) {
+    fun fetchUserInfo(userid: Int) {
 //        Log.d(TAG, "https://jsonplaceholder.typicode.com/users/$userid")
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET,
@@ -108,7 +118,7 @@ object NetworkCalls {
         return user
     }
 
-    private fun fetchPhotos() {
+    fun fetchPhotos(gridview: GridView) {
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET,
             "https://jsonplaceholder.typicode.com/posts/1/photos?_limit=10",
@@ -130,7 +140,8 @@ object NetworkCalls {
                     Log.e(TAG, "Error parsing JSON: " + jsonError.message)
                     jsonError.printStackTrace()
                 }
-//                Log.d(TAG, "onResponse: array size:" + postsArray!!.size)
+                Log.d(TAG, "onResponse: array size:" + photosArray?.size)
+                (gridview.adapter as CustomGridAdapter).notifyDataSetChanged()
             },
             Response.ErrorListener { error ->
                 Log.e("TAG", "Error retrieving JSON from URL: " + error.message)
@@ -141,13 +152,13 @@ object NetworkCalls {
         Log.i(TAG, "Request sent.")
     }
 
-    fun getPhotos(): ArrayList<Photos> {
+    fun getPhotos(gridview: GridView): ArrayList<Photos> {
         photosArray = ArrayList()
-        fetchPhotos()
+        fetchPhotos(gridview)
         return photosArray as ArrayList<Photos>
     }
 
-    private fun fetchComments(postid: Int) {
+    fun fetchComments(postid: Int, comments_listview: ListView) {
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET,
             "https://jsonplaceholder.typicode.com/posts/$postid/comments?_limit=10",
@@ -170,7 +181,8 @@ object NetworkCalls {
                     jsonError.printStackTrace()
                 }
 
-//                Log.d(TAG, "onResponse: array size:" + postsArray!!.size)
+                Log.d(TAG, "onResponse: array size:" + commentsArray?.size)
+                (comments_listview.adapter as CommentsListAdapter).notifyDataSetChanged()
             },
             Response.ErrorListener { error ->
                 Log.e("TAG", "Error retrieving JSON from URL: " + error.message)
@@ -181,9 +193,9 @@ object NetworkCalls {
         Log.i(TAG, "Request sent.")
     }
 
-    fun getComments(postid: Int): ArrayList<Comments> {
+    fun getComments(postid: Int, comments_listview: ListView): ArrayList<Comments> {
         commentsArray = ArrayList()
-        fetchComments(postid)
+        fetchComments(postid, comments_listview)
         return commentsArray as ArrayList<Comments>
     }
 
